@@ -34,6 +34,15 @@ class CattleController extends Controller
     return "Não existe gado com este código.";
   }
 
+  public function update (Request $request ,$code)
+  {
+    $cattle = Cattle::where("code", "=", $code)->update($request->all());
+    if ($cattle > 0) {
+        return "Registro atualizado com sucesso.";
+    };
+    return "Não foi possivel atualizar esse registro.";
+  }
+
   public function shootDown ($code) {
     $cattle = Cattle::where("code", "=", $code);
     if ($cattle) {

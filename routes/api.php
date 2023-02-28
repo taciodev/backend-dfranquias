@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/cattles/create', [CattleController::class, "create"]);
 Route::get('/cattles/search', [CattleController::class, "searchAll"]);
 Route::get('/cattles/{code}', [CattleController::class, "search"]);
+Route::put('/cattles/{code}', [CattleController::class, "update"]);
 Route::delete('cattles/down/{code}', [CattleController::class, "shootDown"]);
 
 
