@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('cattle', function (Blueprint $table) {
             $table->uuid('code');
-            $table->string('liter');
-            $table->string('ration');
+            $table->string('literOfMilkProducedPerWeek');
+            $table->string('kiloOfFeedIngestedPerWeek');
             $table->string('weight');
             $table->string('birth');
         });

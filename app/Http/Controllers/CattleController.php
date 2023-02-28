@@ -11,8 +11,8 @@ class CattleController extends Controller
     {
         $cattle = Cattle::create([
             "code" => $request->code,
-            "liter" => $request->liter,
-            "ration" => $request->ration,
+            "literOfMilkProducedPerWeek" => $request->milk,
+            "kiloOfFeedIngestedPerWeek" => $request->ration,
             "weight" => $request->weight,
             "birth" => $request->birth,
         ]);
