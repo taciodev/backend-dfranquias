@@ -18,4 +18,19 @@ class CattleController extends Controller
         ]);
         return "Gado cadastrado com sucesso!";
     }
+
+    public function searchAll ()
+    {
+        $cattle = Cattle::all();
+        return $cattle;
+    }
+
+  public function search ($code)
+  {
+    $cattle = Cattle::find($code);
+    if ($cattle) {
+      return $cattle;
+    }
+    return "Não existe gado com este código.";
+  }
 }

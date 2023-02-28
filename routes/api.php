@@ -19,7 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/cattle/create', [CattleController::class, "create"]);
+Route::post('/cattles/create', [CattleController::class, "create"]);
+Route::get('/cattles/search', [CattleController::class, "searchAll"]);
+Route::get('/cattles/{code}', [CattleController::class, "search"]);
 
 
 // TODO: CREATE. ✅

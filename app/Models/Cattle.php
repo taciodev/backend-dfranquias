@@ -14,6 +14,8 @@ class Cattle extends Model
 
     public $timestamps = false;
 
+    protected $primaryKey = 'code';
+
     public static function boot()
     {
         parent::boot();
