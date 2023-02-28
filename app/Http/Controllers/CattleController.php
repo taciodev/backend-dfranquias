@@ -27,9 +27,17 @@ class CattleController extends Controller
 
   public function search ($code)
   {
-    $cattle = Cattle::find($code);
+    $cattle = Cattle::where("code", "=", $code);
     if ($cattle) {
       return $cattle;
+    }
+    return "Não existe gado com este código.";
+  }
+
+  public function shootDown ($code) {
+    $cattle = Cattle::where("code", "=", $code);
+    if ($cattle) {
+      return $cattle->delete();
     }
     return "Não existe gado com este código.";
   }

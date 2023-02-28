@@ -22,7 +22,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/cattles/create', [CattleController::class, "create"]);
 Route::get('/cattles/search', [CattleController::class, "searchAll"]);
 Route::get('/cattles/{code}', [CattleController::class, "search"]);
+Route::delete('cattles/down/{code}', [CattleController::class, "shootDown"]);
+
 
 
 // TODO: CREATE. ✅
 // TODO: Pode haver apenas um animal vivo com o mesmo código. ✅
+// TODO: UUID e CREATED_AT funcionando.
+
+// TODO: READ. ✅
+// TODO: Não pode buscar um UUID que não existe. ✅
+// TODO: Retornar outro status caso o uuid não exista.
+
+// TODO: DELETE. ✅
+// TODO: Não pode ser deletado um gado não existe. ✅
+
