@@ -12,6 +12,8 @@ class Cattle extends Model
 
     protected $fillable = [ "liter", "ration", "weight", "birth" ];
 
+    public $timestamps = false;
+
     public static function boot()
     {
         parent::boot();
