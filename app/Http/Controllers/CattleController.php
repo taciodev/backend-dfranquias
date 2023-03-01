@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Cattle;
+use App\Repositories\Contracts\CattleRepositoryInterface;
 
 class CattleController extends Controller
 {
-    public function index()
+    public function index(CattleRepositoryInterface $model)
     {
-        return Cattle::all();
+        return $model->all();
     }
 
 
-    public function store(Request $request)
+    public function store(CattleRepositoryInterface $model, Request $request)
     {
-        if (Cattle::create($request->all())) {
+        if ($model->create($request->all())) {
             return response()->json(["message" => "Bovino cadastrado com sucesso."], 201);
         }
 
@@ -23,20 +23,22 @@ class CattleController extends Controller
     }
 
 
-    public function show($code)
+    public function show(CattleRepositoryInterface $model, $code)
     {
-        $cattle = Cattle::where("code", "=", $code)->get();
-        if (sizeof($cattle) != 0) {
+        $cattle = $model->get($code);
+
+        if ($cattle) {
             return response()->json($cattle, 200);
         }
 
         return response()->json(["message" => "Não foi possivel encontrar esse registro."], 404);
     }
 
-    public function update(Request $request, $code)
+    public function update(CattleRepositoryInterface $model, Request $request, $code)
     {
-        $cattle = Cattle::where("code", "=", $code)->update($request->all());
-        if ($cattle > 0) {
+        $cattle = $model->update($request->all(), $code);
+
+        if ($cattle) {
             return response()->json(
                 ["message" => "Registro atualizado com sucesso."],
                 200
@@ -47,10 +49,13 @@ class CattleController extends Controller
     }
 
 
-    public function destroy($code)
+    public function destroy(CattleRepositoryInterface $model, $code)
     {
-        $cattle = Cattle::where("code", "=", $code)->delete();
-        if ($cattle != 0) {
+        $cattle = $model->get($code);
+
+        if ($cattle) {
+            $cattle = $model->delete($code);
+
             return response()->json(
                 ["message" => "Registro deletado."],
                 200
@@ -61,9 +66,9 @@ class CattleController extends Controller
     }
 
 
-    public function milkQuantifyReportForTheWeek()
+    public function milkQuantifyReportForTheWeek(CattleRepositoryInterface $model)
     {
-        $cattles = Cattle::all();
+        $cattles = $model->all();
         $sumOfMilk = 0;
         foreach ($cattles as $item) {
             $formatNumber = (int)preg_replace("/\D/", "", $item->literOfMilkProducedPerWeek);
@@ -74,9 +79,9 @@ class CattleController extends Controller
     }
 
 
-    public function reportRationNeededPerWeek()
+    public function reportRationNeededPerWeek(CattleRepositoryInterface $model)
     {
-        $cattles = Cattle::all();
+        $cattles = $model->all();
         $sumOfRation = 0;
         foreach ($cattles as $item) {
             $formatNumber = (int)preg_replace("/\D/", "", $item->kiloOfFeedIngestedPerWeek);

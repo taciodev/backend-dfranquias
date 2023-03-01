@@ -10,14 +10,16 @@ class Cattle extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-
     protected $fillable = [
         "literOfMilkProducedPerWeek",
         "kiloOfFeedIngestedPerWeek",
         "weight",
         "birth",
     ];
+
+    protected $primaryKey = "code";
+    protected $keyType = "string";
+    public $timestamps = false;
 
     public static function boot()
     {
