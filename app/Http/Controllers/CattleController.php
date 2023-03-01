@@ -37,9 +37,11 @@ class CattleController extends Controller
 
     public function update(CattleRepositoryInterface $model, Request $request, $code)
     {
-        $cattle = $model->update($request->all(), $code);
+        $cattle = $model->get($code);
 
         if ($cattle) {
+            $model->update($request->all(), $code);
+
             return response()->json(
                 ["message" => "Registro atualizado com sucesso."],
                 200
@@ -76,7 +78,7 @@ class CattleController extends Controller
             $sumOfMilk += $formatNumber;
         }
 
-        return "{$sumOfMilk}L";
+        return response()->json("{$sumOfMilk}L", 200);
     }
 
 
@@ -89,6 +91,6 @@ class CattleController extends Controller
             $sumOfRation += $formatNumber;
         }
 
-        return "{$sumOfRation}Kg";
+        return response()->json("{$sumOfRation}Kg", 200);
     }
 }

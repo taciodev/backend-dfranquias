@@ -23,7 +23,7 @@ Route::get('/cattles', [CattleController::class, "index"]);
 Route::get('/cattles/{code}', [CattleController::class, "show"]);
 Route::post('/cattles', [CattleController::class, "store"]);
 Route::put('/cattles/{code}', [CattleController::class, "update"]);
-Route::delete('cattles/{code}', [CattleController::class, "destroy"]);
+Route::delete('cattles/{code}', [CattleController::class, "destroy"])->middleware(["slaughter.check"]);
 
 Route::get('/cattles/report/milk', [CattleController::class, "milkQuantifyReportForTheWeek"]);
 Route::get('/cattles/report/ration', [CattleController::class, "reportRationNeededPerWeek"]);
