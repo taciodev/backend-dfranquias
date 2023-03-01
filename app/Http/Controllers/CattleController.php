@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\CattleRepositoryInterface;
+use App\Http\Requests\StoreCattleRequest;
 
 class CattleController extends Controller
 {
@@ -13,7 +14,7 @@ class CattleController extends Controller
     }
 
 
-    public function store(CattleRepositoryInterface $model, Request $request)
+    public function store(CattleRepositoryInterface $model, StoreCattleRequest $request)
     {
         if ($model->create($request->all())) {
             return response()->json(["message" => "Bovino cadastrado com sucesso."], 201);
