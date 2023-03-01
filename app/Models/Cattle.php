@@ -10,14 +10,14 @@ class Cattle extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         "literOfMilkProducedPerWeek",
         "kiloOfFeedIngestedPerWeek",
         "weight",
-        "birth"
+        "birth",
     ];
-
-    public $timestamps = false;
 
     public static function boot()
     {
@@ -37,4 +37,3 @@ class Cattle extends Model
 // TODO: ration ✅
 // TODO: weight ✅
 // TODO: birth ✅
-
