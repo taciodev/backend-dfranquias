@@ -25,17 +25,6 @@ Route::post('/cattles', [CattleController::class, "store"]);
 Route::put('/cattles/{code}', [CattleController::class, "update"]);
 Route::delete('cattles/{code}', [CattleController::class, "destroy"])->middleware(["slaughter.check"]);
 
-Route::get('/cattles/report/milk', [CattleController::class, "milkQuantifyReportForTheWeek"]);
-Route::get('/cattles/report/ration', [CattleController::class, "reportRationNeededPerWeek"]);
-
-
-
-// TODO: CREATE. ✅
-
-// TODO: READ. ✅
-
-// TODO: DELETE. ✅
-
-// TODO: UPDATE. ✅
-
-// TODO: API RESOURCE.
+Route::get('/cattles/report/milk', [CattleController::class, "milkProducedInTheWeek"]);
+Route::get('/cattles/report/ration', [CattleController::class, "rationNeededPerWeek"]);
+Route::get('/cattles/report/rationbyage', [CattleController::class, "checkRationByAge"]);

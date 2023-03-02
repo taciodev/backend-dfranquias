@@ -31,11 +31,3 @@ class Cattle extends Model
         });
     }
 }
-
-
-// Chaves que irão ser cadastradas no BD
-// TODO: Gerar uuid automaticamente ✅
-// TODO: liter ✅
-// TODO: ration ✅
-// TODO: weight ✅
-// TODO: birth ✅

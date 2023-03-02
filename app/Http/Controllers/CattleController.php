@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\CattleRepositoryInterface;
 use App\Http\Requests\StoreCattleRequest;
+use Carbon\Carbon;
 
 class CattleController extends Controller
 {
-    public function index(CattleRepositoryInterface $model)
+    public function index(CattleRepositoryInterface $model, Request $request)
     {
         return $model->all();
     }
@@ -69,28 +70,47 @@ class CattleController extends Controller
     }
 
 
-    public function milkQuantifyReportForTheWeek(CattleRepositoryInterface $model)
+    public function milkProducedInTheWeek(CattleRepositoryInterface $model)
     {
         $cattles = $model->all();
-        $sumOfMilk = 0;
+        $sum = 0;
         foreach ($cattles as $item) {
-            $formatNumber = (int)preg_replace("/\D/", "", $item->literOfMilkProducedPerWeek);
-            $sumOfMilk += $formatNumber;
+            $milk = transformNumber($item->literOfMilkProducedPerWeek);
+            $sum += $milk;
         }
 
-        return response()->json("{$sumOfMilk}L", 200);
+        return response()->json(["sum" => "{$sum}L"], 200);
     }
 
 
-    public function reportRationNeededPerWeek(CattleRepositoryInterface $model)
+    public function rationNeededPerWeek(CattleRepositoryInterface $model)
     {
         $cattles = $model->all();
-        $sumOfRation = 0;
+        $sum = 0;
         foreach ($cattles as $item) {
-            $formatNumber = (int)preg_replace("/\D/", "", $item->kiloOfFeedIngestedPerWeek);
-            $sumOfRation += $formatNumber;
+            $ration = transformNumber($item->kiloOfFeedIngestedPerWeek);
+            $sum += $ration;
         }
 
-        return response()->json("{$sumOfRation}Kg", 200);
+        return response()->json(["sum" => "{$sum}Kg"], 200);
+    }
+
+    public function checkRationByAge(CattleRepositoryInterface $model)
+    {
+        $cattles = $model->all();
+        $sum = 0;
+        foreach ($cattles as $item) {
+            $birthCattle = Carbon::createFromFormat('Y-m-d', $item->birth);
+            $current = Carbon::now();
+
+            $daysCattle = $birthCattle->diffInDays($current);
+
+            if ($daysCattle < 365) {
+                $ration = transformNumber($item->kiloOfFeedIngestedPerWeek);
+                $sum += $ration;
+            }
+        }
+
+        return response()->json(["sum" => "{$sum}Kg"], 200);
     }
 }
