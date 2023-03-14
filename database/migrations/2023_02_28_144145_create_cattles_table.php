@@ -11,11 +11,12 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('cattle', function (Blueprint $table) {
-            $table->uuid("code");
-            $table->string('literOfMilkProducedPerWeek');
-            $table->string('kiloOfFeedIngestedPerWeek');
-            $table->string('weight');
+            $table->id();
+            $table->integer('literOfMilkProducedPerWeek');
+            $table->integer('kiloOfFeedIngestedPerWeek');
+            $table->integer('weight');
             $table->string('birth');
+            $table->boolean('downcast')->default(false);
         });
     }
 

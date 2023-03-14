@@ -25,9 +25,9 @@ class CattleController extends Controller
     }
 
 
-    public function show(CattleRepositoryInterface $model, $code)
+    public function show(CattleRepositoryInterface $model, $id)
     {
-        $cattle = $model->get($code);
+        $cattle = $model->get($id);
 
         if ($cattle) {
             return response()->json($cattle, 200);
@@ -36,12 +36,12 @@ class CattleController extends Controller
         return response()->json(["message" => "Não foi possivel encontrar esse registro."], 404);
     }
 
-    public function update(CattleRepositoryInterface $model, Request $request, $code)
+    public function update(CattleRepositoryInterface $model, Request $request, $id)
     {
-        $cattle = $model->get($code);
+        $cattle = $model->get($id);
 
         if ($cattle) {
-            $model->update($request->all(), $code);
+            $model->update($request->all(), $id);
 
             return response()->json(
                 ["message" => "Registro atualizado com sucesso."],
@@ -53,12 +53,12 @@ class CattleController extends Controller
     }
 
 
-    public function destroy(CattleRepositoryInterface $model, $code)
+    public function destroy(CattleRepositoryInterface $model, $id)
     {
-        $cattle = $model->get($code);
+        $cattle = $model->get($id);
 
         if ($cattle) {
-            $cattle = $model->delete($code);
+            $cattle = $model->delete($id);
 
             return response()->json(
                 ["message" => "Registro deletado."],
@@ -69,17 +69,40 @@ class CattleController extends Controller
         return response()->json(["message" => "Não foi possivel encontrar esse registro."], 404);
     }
 
+    public function slaughter(CattleRepositoryInterface $model, $id)
+    {
+        $cattle = $model->get($id);
+        $kiloOfFeedIngestedPerDay = $cattle->kiloOfFeedIngestedPerWeek / 7;
+
+        if (
+            // TODO: Condição se possui mais de 5 anos.
+            $cattle->literOfMilkProducedPerWeek < 40 or
+            $cattle->literOfMilkProducedPerWeek < 70 and
+            $kiloOfFeedIngestedPerDay > 50 or
+            $cattle->weight > 540
+        ) {
+            $model->update(["downcast" => 1], $id);
+
+            return response()->json(
+                ["message" => "Animal abatido."],
+                200
+            );
+        }
+
+        return response()->json(["message" => "Este animal não está nos requisitos para o abate."], 404);
+    }
+
 
     public function milkProducedInTheWeek(CattleRepositoryInterface $model)
     {
         $cattles = $model->all();
         $sum = 0;
         foreach ($cattles as $item) {
-            $milk = transformNumber($item->literOfMilkProducedPerWeek);
+            $milk = $item->literOfMilkProducedPerWeek;
             $sum += $milk;
         }
 
-        return response()->json(["sum" => "{$sum}L"], 200);
+        return response()->json(["sum" => $sum], 200);
     }
 
 
@@ -92,11 +115,12 @@ class CattleController extends Controller
             $sum += $ration;
         }
 
-        return response()->json(["sum" => "{$sum}Kg"], 200);
+        return response()->json(["sum" => $sum], 200);
     }
 
     public function checkRationByAge(CattleRepositoryInterface $model)
     {
+        // TODO: AVALIAR ESSA FUNÇÃO
         $cattles = $model->all();
         $sum = 0;
         foreach ($cattles as $item) {

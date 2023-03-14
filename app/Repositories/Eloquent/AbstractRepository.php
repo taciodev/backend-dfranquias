@@ -16,9 +16,9 @@ class AbstractRepository
         return $this->model->all();
     }
 
-    public function get($code)
+    public function get($id)
     {
-        return $this->model->find($code);
+        return $this->model->find($id);
     }
 
     public function create(array $data)
@@ -27,14 +27,14 @@ class AbstractRepository
     }
 
 
-    public function update(array $data, $code)
+    public function update(array $data, $id)
     {
-        return $this->model->find($code)->update($data);
+        return $this->model->find($id)->update($data);
     }
 
-    public function delete($code)
+    public function delete($id)
     {
-        return $this->model->find($code)->delete();
+        return $this->model->find($id)->delete();
     }
 
     public function resolveModel()

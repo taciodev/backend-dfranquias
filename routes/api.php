@@ -20,11 +20,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/cattles', [CattleController::class, "index"]);
-Route::get('/cattles/{code}', [CattleController::class, "show"]);
+Route::get('/cattles/{id}', [CattleController::class, "show"]);
 Route::post('/cattles', [CattleController::class, "store"]);
-Route::put('/cattles/{code}', [CattleController::class, "update"]);
-Route::delete('cattles/{code}', [CattleController::class, "destroy"])->middleware(["slaughter.check"]);
+Route::put('/cattles/{id}', [CattleController::class, "update"]);
+Route::delete('cattles/{id}', [CattleController::class, "destroy"]);
+
+Route::patch('cattles/slaughter/{id}', [CattleController::class, "slaughter"]);
 
 Route::get('/cattles/report/milk', [CattleController::class, "milkProducedInTheWeek"]);
 Route::get('/cattles/report/ration', [CattleController::class, "rationNeededPerWeek"]);
-Route::get('/cattles/report/rationbyage', [CattleController::class, "checkRationByAge"]);
+Route::get('/cattles/report/ration_by_age', [CattleController::class, "checkRationByAge"]);
